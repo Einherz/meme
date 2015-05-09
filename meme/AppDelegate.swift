@@ -13,9 +13,16 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    
+    var memes = [memeObj]()
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        if(memes.count < 1) //check if meme is exist
+        {
+            let storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil);
+            self.window?.rootViewController = storyboard.instantiateViewControllerWithIdentifier("memeEditor") as? UIViewController;
+        }
         // Override point for customization after application launch.
         return true
     }
