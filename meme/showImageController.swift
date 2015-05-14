@@ -11,10 +11,11 @@ import UIKit
 
 class showImageController: UIViewController {
     
-    var imageContent:UIImage?;
-    var indexObj:Int?;
-    var appDelegate:AppDelegate!;
+    internal var imageContent: UIImage?;
+    internal var indexObj: Int?;
+    private var appDelegate: AppDelegate!;
     @IBOutlet weak var imageDisplay: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad();
         
@@ -25,16 +26,19 @@ class showImageController: UIViewController {
         appDelegate = object as! AppDelegate
         imageDisplay.image = imageContent;
     }
+    
     @IBAction func backToParent(sender: UIBarButtonItem) {
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
+    
     @IBAction func removeItem(sender: UIBarButtonItem) {
         appDelegate.memes.removeAtIndex(indexObj!);
         self.navigationController?.popToRootViewControllerAnimated(true);
         
     }
+    
     @IBAction func EditItem(sender: UIBarButtonItem) {
-        let destination = self.storyboard!.instantiateViewControllerWithIdentifier("memeEditor") as! ViewController;
+        let destination:memeEditorController = self.storyboard!.instantiateViewControllerWithIdentifier("memeEditor") as! memeEditorController;
         self.presentViewController(destination, animated: true, completion: nil);
     }
 }

@@ -5,10 +5,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Meme Editor Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="memeEditor" id="BYZ-38-t0r" customClass="ViewController" customModule="meme" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="memeEditor" id="BYZ-38-t0r" customClass="memeEditorController" customModule="meme" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -100,7 +100,9 @@
                         <outlet property="bottomTxt" destination="lFr-1n-BRZ" id="xj7-yG-cDX"/>
                         <outlet property="cameraButton" destination="A1s-cf-tPg" id="y5u-X3-ol9"/>
                         <outlet property="imagePreview" destination="OH7-wZ-Qyo" id="2gl-sQ-Gni"/>
+                        <outlet property="navigationBar" destination="dHi-iX-ze1" id="e3X-aH-Hcm"/>
                         <outlet property="shareBtn" destination="wcz-Jj-87s" id="b3k-OA-7NK"/>
+                        <outlet property="toolBar" destination="Ca6-aX-THp" id="jWW-xm-gle"/>
                         <outlet property="topTxt" destination="TaA-XK-9oz" id="KHT-iP-ffd"/>
                     </connections>
                 </viewController>
@@ -111,13 +113,13 @@
         <!--sentmemeTable-->
         <scene sceneID="Fta-Tb-B4x">
             <objects>
-                <tableViewController id="RHA-JF-2fb" userLabel="sentmemeTable" customClass="sentmemeTable" customModule="meme" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="RHA-JF-2fb" userLabel="sentmemeTable" customClass="sentmemeTableController" customModule="meme" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="BMs-v7-yBm" customClass="sendmemeTable">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellTable" textLabel="D4K-oq-MdF" imageView="QIv-xm-44l" style="IBUITableViewCellStyleDefault" id="43r-O0-ROJ">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellTable" textLabel="D4K-oq-MdF" detailTextLabel="6nw-lU-ucF" imageView="QIv-xm-44l" style="IBUITableViewCellStyleSubtitle" id="43r-O0-ROJ">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="43r-O0-ROJ" id="MF8-3Q-RTp">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -125,12 +127,18 @@
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="D4K-oq-MdF">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" id="QIv-xm-44l">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="QIv-xm-44l">
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6nw-lU-ucF">
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -212,10 +220,10 @@
             </objects>
             <point key="canvasLocation" x="-753" y="640"/>
         </scene>
-        <!--Sentmeme-->
+        <!--Sentmeme Collection Controller-->
         <scene sceneID="OPK-2R-rgf">
             <objects>
-                <collectionViewController id="qOr-mj-ARS" customClass="sentmeme" customModule="meme" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="qOr-mj-ARS" customClass="sentmemeCollectionController" customModule="meme" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="UwW-qE-P5i">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -273,7 +281,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="onn-Tn-LZO">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="onn-Tn-LZO">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="78d-Ra-1mf">
@@ -297,11 +305,17 @@
                             <constraint firstItem="78d-Ra-1mf" firstAttribute="leading" secondItem="V4G-00-fZu" secondAttribute="leadingMargin" constant="-16" id="2mf-uC-by6"/>
                             <constraint firstItem="onn-Tn-LZO" firstAttribute="leading" secondItem="V4G-00-fZu" secondAttribute="leadingMargin" constant="-16" id="FBC-9o-Ycz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="78d-Ra-1mf" secondAttribute="trailing" constant="-16" id="JBx-Rt-J1Z"/>
+                            <constraint firstItem="78d-Ra-1mf" firstAttribute="top" secondItem="onn-Tn-LZO" secondAttribute="bottom" constant="-44" id="fbo-oK-aSy"/>
                             <constraint firstItem="78d-Ra-1mf" firstAttribute="bottom" secondItem="V4G-00-fZu" secondAttribute="bottomMargin" id="gc6-gp-EeK"/>
                             <constraint firstItem="gOE-lH-j6u" firstAttribute="top" secondItem="onn-Tn-LZO" secondAttribute="bottom" id="n0d-Ld-n20"/>
                             <constraint firstAttribute="trailingMargin" secondItem="onn-Tn-LZO" secondAttribute="trailing" constant="-16" id="qbF-Oe-Iby"/>
                             <constraint firstItem="onn-Tn-LZO" firstAttribute="top" secondItem="V4G-00-fZu" secondAttribute="topMargin" id="txA-L5-6cD"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="n0d-Ld-n20"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
@@ -315,6 +329,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="PCL-AQ-Yf2"/>
+        <segue reference="crl-Rg-3Ai"/>
     </inferredMetricsTieBreakers>
 </document>

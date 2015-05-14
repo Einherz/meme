@@ -9,28 +9,30 @@
 import UIKit
 
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate,UIGestureRecognizerDelegate {
+class memeEditorController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate,UIGestureRecognizerDelegate {
     
+    @IBOutlet weak var toolBar: UIToolbar!
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var shareBtn: UIBarButtonItem!
     @IBOutlet weak var imagePreview: UIImageView!
     @IBOutlet weak var topTxt: UITextField!
     @IBOutlet weak var bottomTxt: UITextField!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     
-    var meme:memeObj!;
-    var memedImage:UIImage!;
-    var tempStr:String?;
-    var activeField:UITextField?;
+    private var meme: MemeObj!;
+    private var memedImage: UIImage!;
+    private var tempStr: String?;
+    private var activeField: UITextField?;
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //set Text
+        //set TextField
         let memeTextAttributes = [
             NSForegroundColorAttributeName : UIColor.whiteColor(),
             NSStrokeColorAttributeName : UIColor.blackColor(),
             NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName : -2.0
+            NSStrokeWidthAttributeName : -2.0 // this is might be a weird bug of Apple, I've found it on stackoverflow that you can't use positive value sometimes?
         ]
         
         topTxt.text = "TOP";
@@ -45,6 +47,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
         
         //tap on anything to hide keyboard
+        //useful feature to tap
         let tapGesture:UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "hideKeyboard:")
         tapGesture.delegate = self
         self.view.addGestureRecognizer(tapGesture);
@@ -66,10 +69,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func generateMemedImage() -> UIImage
     {
         print("generate Image");
-        self.navigationController?.setNavigationBarHidden(true, animated: true);
-        self.navigationController?.setToolbarHidden(true, animated: true);
+        //hide navigation bar and tool bar
+        self.navigationBar.hidden = true;
+        self.toolBar.hidden = true;
         
-        // Render view to an image
         UIGraphicsBeginImageContext(self.view.frame.size)
         self.view.drawViewHierarchyInRect(self.view.frame,
             afterScreenUpdates: true)
@@ -77,15 +80,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        self.navigationController?.setNavigationBarHidden(false, animated: true);
-        self.navigationController?.setToolbarHidden(false, animated: true);
+       //show Navigation bar and toolbar
+        self.navigationBar.hidden = false;
+        self.toolBar.hidden = false;
         
         return memedImage
     }
     
     func save() {
         //Create the meme
-        meme = memeObj(textMeme: topTxt.text, originalImg: imagePreview.image!, memeImg: memedImage);
+        meme = MemeObj(textMeme: topTxt.text,subTextMeme: bottomTxt.text, originalImg: imagePreview.image!, memeImg: memedImage);
         
         let object = UIApplication.sharedApplication().delegate
         let appDelegate = object as! AppDelegate
@@ -93,20 +97,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        // force keyboard to hide
         self.view.endEditing(true)
         return false
     }
     
     func hideKeyBoard()
     {
+        // force keyboard to hide
         self.view.endEditing(true);
     }
     
     func subscribeToKeyboardNotifications()
     {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWasShown:"    , name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillbeHidden:"    , name: UIKeyboardWillHideNotification, object: nil)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWasShown:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillbeHidden:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func unsubscribeFromKeyboardNotifications()
@@ -119,16 +124,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func keyboardWasShown(notification: NSNotification) {
         
-        var aRect:CGRect = self.view.frame;
+        //change from Udacity to Apple Style.
+        //I have used it a lot in my application
+        //Udacity solution is shift everything up 
+        //even keyboard doesnot overlap TextField
+        //Apple style is checking if keyboard DID overlap then shift up
+        var aRect: CGRect = self.view.frame;
         aRect.size.height  -= getKeyboardHeight(notification);
          if(!CGRectContainsPoint(aRect, activeField!.frame.origin))
          {
             self.view.frame.origin.y -= getKeyboardHeight(notification)
-        }
+         }
     }
     
     func keyboardWillbeHidden(notification: NSNotification)
     {
+        //return view back to zero position
         self.view.frame.origin.y = CGRectZero.origin.y;
     }
     
@@ -141,14 +152,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func takeImage(sender: UIBarButtonItem) {
         getImage(1);
     }
+    
     @IBAction func pickImage(sender: UIBarButtonItem) {
         getImage(2);
     }
     
     @IBAction func shareImg(sender: UIButton) {
         memedImage = generateMemedImage();
-        let sharingObj:[UIImage] = [memedImage];
-        let sharing:UIActivityViewController  = UIActivityViewController(activityItems: sharingObj, applicationActivities: nil);
+        let sharingObj: [UIImage] = [memedImage];
+        let sharing: UIActivityViewController  = UIActivityViewController(activityItems: sharingObj, applicationActivities: nil);
         sharing.completionWithItemsHandler = {(activityType:String!, completed: Bool,
             returnedItems: [AnyObject]!, error: NSError!) in
             if(completed)
@@ -157,9 +169,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 let destination = self.storyboard!.instantiateViewControllerWithIdentifier("tabBarView") as! UITabBarController
                 self.presentViewController(destination, animated: true, completion: nil);
             }
-            }
+        };
          self.presentViewController(sharing, animated: true, completion: nil);
-       
     }
     
     func getImage(type:Int)
@@ -178,12 +189,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
+        //clear text that was filled and save in tempStr
         self.tempStr = textField.text;
         activeField = textField;
         textField.text = "";
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
+        //if value in textfield is exist will delete it
+        // and if value is nill then refill it back from textFieldDidBeginEditing
         if (textField.text == "")
         {
             textField.text = self.tempStr;

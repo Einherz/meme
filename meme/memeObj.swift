@@ -9,15 +9,18 @@
 import Foundation
 import UIKit
 
-class memeObj {
-    var originalImg:UIImage!;
-    var memeImg:UIImage!;
-    var textMeme:NSString!;
+struct MemeObj {
+    internal var originalImg:UIImage!
+    internal var memeImg:UIImage!
+    internal var textMeme:NSString!
+    internal var subTextMeme:NSString!
+
     
-    init(textMeme: NSString, originalImg:UIImage,memeImg:UIImage )
+    init(textMeme: NSString, subTextMeme:NSString, originalImg:UIImage, memeImg:UIImage )
     {
-        self.textMeme = textMeme;
-        self.originalImg = originalImg;
-        self.memeImg = memeImg;
+        self.textMeme = textMeme
+        self.subTextMeme = subTextMeme
+        self.originalImg = originalImg
+        self.memeImg = memeImg
     }
 }
